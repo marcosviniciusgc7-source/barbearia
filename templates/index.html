@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Barbearia</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
+
+    <h1>Agende seu horário</h1>
+
+    <form action="/agendar" method="POST">
+
+        <div class="etapa ativa" id="etapa1">
+            <h3>Qual seu nome?</h3>
+
+            <input
+                type="text"
+                name="nome"
+                placeholder="Digite seu nome"
+                required
+            >
+
+            <button type="button" onclick="proximaEtapa(2)">
+                Próximo
+            </button>
+        </div>
+
+        <div class="etapa" id="etapa2">
+            <h3>Seu WhatsApp</h3>
+
+            <input
+                type="text"
+                name="telefone"
+                placeholder="(11) 99999-9999"
+                required
+            >
+
+            <button
+                type="button"
+                class="btn-voltar"
+                onclick="proximaEtapa(1)">
+                Voltar
+            </button>
+
+            <button
+                type="button"
+                onclick="proximaEtapa(3)">
+                Próximo
+            </button>
+        </div>
+
+        <div class="etapa" id="etapa3">
+            <h3>Escolha o serviço</h3>
+
+            <select name="servico" required>
+
+                <option value="">Escolha</option>
+
+                <option value="Corte">
+                    Corte — R$ 40
+                </option>
+
+                <option value="Corte + Barba">
+                    Corte + Barba — R$ 60
+                </option>
+
+                <option value="Corte + Sobrancelha">
+                    Corte + Sobrancelha — R$ 50
+                </option>
+
+                <option value="Corte + Sobrancelha + Barba">
+                    Corte + Sobrancelha + Barba — R$ 70
+                </option>
+
+                <option value="Corte + Cavanhaque">
+                    Corte + Cavanhaque — R$ 55
+                </option>
+
+                <option value="Corte + Sobrancelha + Cavanhaque">
+                    Corte + Sobrancelha + Cavanhaque — R$ 60
+                </option>
+
+                <option value="Barba">
+                    Barba — R$ 20
+                </option>
+
+                <option value="Sobrancelha">
+                    Sobrancelha — R$ 20
+                </option>
+
+                <option value="Corte + Luzes">
+                    Corte + Luzes — R$ 100
+                </option>
+
+                <option value="Corte + Relaxamento">
+                    Corte + Relaxamento — R$ 70
+                </option>
+
+            </select>
+
+            <button
+                type="button"
+                class="btn-voltar"
+                onclick="proximaEtapa(2)">
+                Voltar
+            </button>
+
+            <button
+                type="button"
+                onclick="proximaEtapa(4)">
+                Próximo
+            </button>
+        </div>
+
+        <div class="etapa" id="etapa4">
+            <h3>Escolha a data</h3>
+
+            <input
+                type="text"
+                id="calendario"
+                name="data"
+                placeholder="Clique para escolher a data"
+                required
+            >
+
+            <button
+                type="button"
+                class="btn-voltar"
+                onclick="proximaEtapa(3)">
+                Voltar
+            </button>
+
+            <button
+                type="button"
+                onclick="proximaEtapa(5)">
+                Ver horários
+            </button>
+        </div>
+
+        <div class="etapa" id="etapa5">
+            <h3>Horários Disponíveis</h3>
+
+            <div id="horarios-container">
+
+                <div id="manha">
+                    <p class="periodo">MANHÃ</p>
+                </div>
+
+                <div id="tarde">
+                    <p class="periodo">TARDE</p>
+                </div>
+
+            </div>
+
+            <input
+                type="hidden"
+                name="horario"
+                id="horarioSelecionado"
+            >
+
+            <p id="horarioEscolhido"></p>
+
+            <textarea
+                name="observacao"
+                placeholder="Observações..."
+                rows="4">
+            </textarea>
+
+            <button
+                type="button"
+                class="btn-voltar"
+                onclick="proximaEtapa(4)">
+                Voltar
+            </button>
+
+            <button type="submit">
+                Finalizar Agendamento
+            </button>
+        </div>
+
+    </form>
+
+    <br>
+
+    <a href="/login">
+        Painel Admin
+    </a>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

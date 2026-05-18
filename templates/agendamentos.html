@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Admin</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container tabela-container">
+
+    <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
+
+    <h1>Painel Administrativo</h1>
+
+    <div class="admin-topo">
+        <a href="/">+ Novo Agendamento</a>
+        <a href="/logout">Sair</a>
+    </div>
+
+    <div class="cards-admin">
+
+        <div class="card-admin">
+            <h2>{{ agendamentos|length }}</h2>
+            <p>Total de Agendamentos</p>
+        </div>
+
+        <div class="card-admin">
+            <h2>R$ {{ faturamento_hoje }}</h2>
+            <p>Faturamento do Dia</p>
+        </div>
+
+        <div class="card-admin">
+            <h2>R$ {{ faturamento_mes }}</h2>
+            <p>Faturamento do Mês</p>
+        </div>
+
+        <div class="card-admin">
+            <h2>R$ {{ faturamento_total }}</h2>
+            <p>Faturamento Total</p>
+        </div>
+
+    </div>
+
+    <input 
+        type="text" 
+        id="pesquisa" 
+        placeholder="Pesquisar por nome, WhatsApp ou serviço..."
+        onkeyup="pesquisarTabela()"
+    >
+
+    <table id="tabela-agendamentos">
+
+        <tr>
+            <th>Cliente</th>
+            <th>WhatsApp</th>
+            <th>Serviço</th>
+            <th>Valor</th>
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Ações</th>
+        </tr>
+
+        {% for item in agendamentos %}
+
+        <tr>
+            <td>{{ item[1] }}</td>
+
+            <td>{{ item[2] }}</td>
+
+            <td>{{ item[3] }}</td>
+
+            <td>
+                {% if item[3] == "Corte" %}
+                    R$ 40
+                {% elif item[3] == "Corte + Barba" %}
+                    R$ 60
+                {% elif item[3] == "Corte + Sobrancelha" %}
+                    R$ 50
+                {% elif item[3] == "Corte + Sobrancelha + Barba" %}
+                    R$ 70
+                {% elif item[3] == "Corte + Cavanhaque" %}
+                    R$ 55
+                {% elif item[3] == "Corte + Sobrancelha + Cavanhaque" %}
+                    R$ 60
+                {% elif item[3] == "Barba" %}
+                    R$ 20
+                {% elif item[3] == "Sobrancelha" %}
+                    R$ 20
+                {% elif item[3] == "Corte + Luzes" %}
+                    R$ 100
+                {% elif item[3] == "Corte + Relaxamento" %}
+                    R$ 70
+                {% endif %}
+            </td>
+
+            <td>{{ item[4] }}</td>
+
+            <td>{{ item[5] }}</td>
+
+            <td>
+
+                <a href="https://wa.me/55{{ item[2] }}" target="_blank">
+                    <button type="button" class="btn-whatsapp">
+                        WhatsApp
+                    </button>
+                </a>
+
+                <form action="/excluir/{{ item[0] }}" method="POST">
+
+                    <button class="btn-excluir" type="submit">
+                        Excluir
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+<script>
+
+function pesquisarTabela() {
+
+    let input = document.getElementById("pesquisa").value.toLowerCase();
+
+    let tabela = document.getElementById("tabela-agendamentos");
+
+    let linhas = tabela.getElementsByTagName("tr");
+
+    for (let i = 1; i < linhas.length; i++) {
+
+        let texto = linhas[i].innerText.toLowerCase();
+
+        linhas[i].style.display =
+            texto.includes(input) ? "" : "none";
+    }
+}
+
+</script>
+
+</body>
+</html>
